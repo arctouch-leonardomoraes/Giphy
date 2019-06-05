@@ -15,14 +15,27 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        def giphyKey = properties.getProperty("giphy_api_key", "")
+
+        debug {
+            buildConfigField 'String', "GIPHY_API_KEY", giphyKey
+            resValue 'string', "api_key", giphyKey
+        }
+
         release {
+            buildConfigField 'String', "GIPHY_API_KEY", giphyKey
+            resValue 'string', "api_key", giphyKey
+
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
-ext{
+
+ext {
     appCompatVersion = '1.0.2'
     archComponentsVersion = '2.0.0'
     constraintLayoutVersion = '2.0.0-beta1'

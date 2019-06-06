@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -32,39 +34,47 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildToolsVersion = '28.0.3'
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 
 ext {
-    appCompatVersion = '1.0.2'
-    archComponentsVersion = '2.0.0'
+    appCompatVersion = '1.1.0-beta01'
+    archComponentsVersion = '2.2.0-alpha01'
     constraintLayoutVersion = '2.0.0-beta1'
+    androidXComponentsVersionAlpha = '1.1.0-alpha06'
     androidXComponentsVersion = '1.0.0'
     glideVersion = '4.9.0'
     retrofit2Version = '2.5.0'
-    okhttp3Version = '3.12.0'
+    okhttp3Version = '4.0.0-alpha02'
     kotlinCoroutineVersion = '1.0.1'
     moshiVersion = '1.8.0'
-    gsonVersion = '2.8.1'
-    room_version = '2.1.0-rc01'
+    gsonVersion = '2.8.5'
+    roomVersion = '2.1.0-rc01'
+    daggerVersion = '2.23.1'
+    androidaggerVersion = '2.15'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation 'androidx.core:core-ktx:1.2.0-alpha01'
 
     // Room components
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:${archComponentsVersion}"
 
     // UI
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
-    implementation "androidx.recyclerview:recyclerview:${androidXComponentsVersion}"
+    implementation "androidx.recyclerview:recyclerview:${androidXComponentsVersionAlpha}"
     implementation "androidx.cardview:cardview:${androidXComponentsVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
 
@@ -76,7 +86,7 @@ dependencies {
 
     // Okhttp3
     implementation "com.squareup.okhttp3:okhttp:$okhttp3Version"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.0-alpha02'
 
     // Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutineVersion"
@@ -84,11 +94,16 @@ dependencies {
 
     // Glide
     implementation "com.github.bumptech.glide:glide:${glideVersion}"
-    annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
+    kapt "com.github.bumptech.glide:compiler:${glideVersion}"
 
+    //Dagger2
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$androidaggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$androidaggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     // Testing
-    testImplementation "junit:junit:4.12"
+    testImplementation 'junit:junit:4.13-beta-3'
     testImplementation "org.mockito:mockito-core:2.23.4"
     implementation "androidx.arch.core:core-testing:2.1.0-beta01"
 }
